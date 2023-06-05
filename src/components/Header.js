@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import '../css/Header.css';
 import { useHistory } from 'react-router-dom';
+import profileIcon from '../images/profileIcon.svg';
+import searchIcon from '../images/searchIcon.svg';
 
 export default function Header(props) {
   const [searchBarIsActive, setSearchBarIsActive] = useState(false);
@@ -18,7 +20,7 @@ export default function Header(props) {
         data-testid="profile-top-btn"
         onClick={ () => handleProfileClick() }
       >
-        <img src="../images/profileIcon.svg" alt="profile" />
+        <img src={ profileIcon } alt="profile" />
       </button>
       <div>
         {haveHeaderSearch && (
@@ -27,7 +29,7 @@ export default function Header(props) {
             onClick={ () => setSearchBarIsActive(!searchBarIsActive) }
           >
             <img
-              src="../images/searchIcon.svg"
+              src={ searchIcon }
               alt="search"
             />
           </button>
