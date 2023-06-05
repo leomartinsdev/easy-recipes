@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 // import rockGlass from './images/rockGlass.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
     // </div>
     <Switch>
       <Route exact path="/" component={ Login } />
+      <Route exact path="/profile" component={ Profile } />
       {/* <Route exact path="/" component={ Login } />
       <Route exact path="/" component={ Login } />
       <Route exact path="/" component={ Login } /> */}

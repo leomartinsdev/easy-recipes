@@ -1,22 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import '../css/Header.css';
+import { useHistory } from 'react-router-dom';
 
 export default function Header(props) {
-  const { haveHeadSearch, pageName } = props;
+  const [searchBarIsActive, setSearchBarIsActive] = useState(false);
+  const { haveHeaderSearch, pageName } = props;
+  const history = useHistory();
+
+  const handleProfileClick = () => {
+    history.push('/profile');
+  };
+
   return (
     <header>
-      <img
-        src="../images/profileIcon.svg"
-        alt="profile"
+      <button
         data-testid="profile-top-btn"
-      />
-      {haveHeadSearch && (
-        <img
-          src="../images/searchIcon.svg"
-          alt="search"
-          data-testid="search-top-btn"
-        />
-      )}
+        onClick={ () => handleProfileClick() }
+      >
+        <img src="../images/profileIcon.svg" alt="profile" />
+      </button>
+      <div>
+        {haveHeaderSearch && (
+          <button
+            data-testid="search-top-btn"
+            onClick={ () => setSearchBarIsActive(!searchBarIsActive) }
+          >
+            <img
+              src="../images/searchIcon.svg"
+              alt="search"
+            />
+          </button>
+        )}
+        {
+          searchBarIsActive && (
+            <input
+              type="text"
+              data-testid="search-input"
+            />
+          )
+        }
+      </div>
       <h1 data-testid="page-title">{pageName}</h1>
     </header>
   );
