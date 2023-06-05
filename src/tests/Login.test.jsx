@@ -4,6 +4,10 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from '../renderWithRouter';
 
+const EMAIL = 'email-input';
+const PASSWORD = 'password-input';
+const BUTTON = 'login-submit-btn';
+
 describe('Desenvolva testes para cobertura da tela de Login', () => {
   test('A rota deve ser o / ', () => {
     const { history } = renderWithRouter(<App />);
@@ -11,13 +15,20 @@ describe('Desenvolva testes para cobertura da tela de Login', () => {
   });
   test('Local Storage', () => {
     renderWithRouter(<App />);
+    const inputEmail = screen.queryByTestId(EMAIL);
+    const passwordInput = screen.queryByTestId(PASSWORD);
+    const getButton = screen.queryByTestId(BUTTON);
+    userEvent.type(inputEmail, 'teste@trybe.com');
+    userEvent.type(passwordInput, '1234567');
+    userEvent.click(getButton);
+    expect(localStorage.getItem('user')).toBe('teste@trybe.com');
   });
 
   describe('Teste da rota Login', () => {
     test('Verifica se existe um campo de Email e Nome e suas especificações', () => {
       renderWithRouter(<App />);
-      const getEmail = screen.getByTestId('email-input');
-      const getPassword = screen.getByTestId('password-input');
+      const getEmail = screen.getByTestId(EMAIL);
+      const getPassword = screen.getByTestId(PASSWORD);
       expect(getEmail).toBeInTheDocument();
       expect(getPassword).toBeInTheDocument();
     });
@@ -31,23 +42,23 @@ describe('Desenvolva testes para cobertura da tela de Login', () => {
   describe('Teste do comportamento do botões', () => {
     test('Teste do comportamento do botão Entrar', () => {
       const { getByTestId } = renderWithRouter(<App />);
-      const getButton = getByTestId('login-submit-btn');
+      const getButton = getByTestId(BUTTON);
       expect(getButton).toBeDisabled();
       const getEmail = screen.getByText('E-mail:');
-      userEvent.type(getEmail, 'teste@trybe.com');
-      const getName = screen.getByText('Senha:');
-      userEvent.type(getName, '1234567');
+      userEvent.type(getEmail, 'test@trybe.com');
+      const getSenha = screen.getByText('Senha:');
+      userEvent.type(getSenha, '1234567');
       expect(getButton).not.toBeDisabled();
     });
     test('Teste se o clique do botão leva pro local correto', async () => {
       const { history } = renderWithRouter(<App />);
-      const inputEmail = screen.queryByTestId('email-input');
-      const inputName = screen.queryByTestId('password-input');
-      const getButton = screen.queryByTestId('login-submit-btn');
+      const inputEmail = screen.queryByTestId(EMAIL);
+      const inputSenha = screen.queryByTestId(PASSWORD);
+      const getButton = screen.queryByTestId(BUTTON);
       const senha = '1234567';
       const validEmail = 'email@gmail.com';
       userEvent.type(inputEmail, validEmail);
-      userEvent.type(inputName, senha);
+      userEvent.type(inputSenha, senha);
       userEvent.click(getButton);
       expect(history.location.pathname).toBe('/meals');
     });
