@@ -9,6 +9,9 @@ describe('Desenvolva testes para cobertura da tela de Login', () => {
     const { history } = renderWithRouter(<App />);
     expect(history.location.pathname).toBe('/');
   });
+  test('Local Storage', () => {
+    renderWithRouter(<App />);
+  });
 
   describe('Teste da rota Login', () => {
     test('Verifica se existe um campo de Email e Nome e suas especificações', () => {
