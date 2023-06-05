@@ -5,7 +5,7 @@ import { Context } from './Context';
 const INITIAL_STATE = { nome: 'Xablau' };
 
 export default function Provider({ children }) {
-  const [state, setState] = useState(INITIAL_STATE);
+  const [state] = useState(INITIAL_STATE);
 
   return (
     <Context.Provider value={ state }>
