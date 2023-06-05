@@ -4,6 +4,7 @@ import '../css/Header.css';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 export default function Header(props) {
   const [searchBarIsActive, setSearchBarIsActive] = useState(false);
@@ -36,10 +37,13 @@ export default function Header(props) {
         )}
         {
           searchBarIsActive && (
-            <input
-              type="text"
-              data-testid="search-input"
-            />
+            <>
+              <input
+                type="text"
+                data-testid="search-input"
+              />
+              <SearchBar />
+            </>
           )
         }
       </div>

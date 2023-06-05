@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
+import Header from './components/Header';
 
 function App() {
   return (
@@ -21,6 +22,15 @@ function App() {
     <Switch>
       <Route exact path="/" component={ Login } />
       <Route exact path="/profile" component={ Profile } />
+      <Route
+        exact
+        path="/meals"
+        render={ (props) => (<Header
+          { ...props }
+          haveHeaderSearch
+          pageName="Meals"
+        />) }
+      />
       {/* <Route exact path="/" component={ Login } />
       <Route exact path="/" component={ Login } />
       <Route exact path="/" component={ Login } /> */}
