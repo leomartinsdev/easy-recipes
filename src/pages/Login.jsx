@@ -34,6 +34,10 @@ export default function Login() {
   const handleClick = (e) => {
     e.preventDefault();
     history.push('/meals');
+    // history.push('/drinks');
+    //if (isEmailValid && isPasswordValid) {
+    //  localStorage.setItem('user', JSON.stringify({ email }));
+    //}
     localStorage.setItem('user', JSON.stringify({ email }));
   };
   return (
