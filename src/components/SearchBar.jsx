@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
 
@@ -13,14 +13,14 @@ function SearchBar() {
   const history = useHistory();
   const whatPage = history.location.pathname;
 
-  const checkSearched = () => {
+  const checkSearched = useCallback(() => {
     if (searchedMeals.meals.length === 1) {
       history.push(`/meals/${searchedMeals.meals[0].idMeal}`);
     }
     if (searchedDrinks.drinks.length === 1) {
       history.push(`/drinks/${searchedDrinks.drinks[0].idDrink}`);
     }
-  };
+  }, [searchedDrinks, searchedMeals, history]);
 
   function saveResults(json) {
     if (whatPage === '/meals') {
@@ -32,7 +32,7 @@ function SearchBar() {
 
   useEffect(() => {
     checkSearched();
-  }, [searchedMeals, searchedDrinks]);
+  }, [searchedMeals, searchedDrinks, checkSearched]);
 
   // Ao clicar no botão de Pesquisar, executa a função abaixo.
   async function handleSearchBtn() {
