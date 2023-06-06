@@ -4,15 +4,27 @@ import useFetch from '../hooks/useFetch';
 
 export default function Recipes(props) {
   const { typeOfRecipe } = props;
-  const { recipes } = useFetch(typeOfRecipe);
+  const { recipes, categories } = useFetch(typeOfRecipe);
   const id = typeOfRecipe === 'meals' ? 'idMeal' : 'idDrink';
   const recipeName = typeOfRecipe === 'meals' ? 'strMeal' : 'strDrink';
   const thumb = typeOfRecipe === 'meals' ? 'strMealThumb' : 'strDrinkThumb';
   const numberOfRecipes = 12;
-  console.log(recipes);
+  const numberOfCategories = 5;
   return (
     <>
-      <h2>teste</h2>
+      <div className="categories">
+        {categories
+          .filter((categorie, index) => index < numberOfCategories)
+          .map(({ strCategory }) => (
+            <button
+              data-testid={ `${strCategory}-category-filter` }
+              key={ strCategory }
+              onClick={ () => setSelectCategorie(strCategory) }
+            >
+              {strCategory}
+            </button>
+          ))}
+      </div>
       {recipes
         .filter((recipe, index) => index < numberOfRecipes)
         .map((recipe, index) => (
