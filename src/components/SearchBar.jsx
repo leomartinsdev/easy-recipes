@@ -1,16 +1,20 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
 
 function SearchBar() {
   const [filterBy, setFilterBy] = useState('');
   const { searchInput } = useContext(Context);
   console.log(filterBy);
+  const history = useHistory();
+  const whatPage = history.location.pathname;
 
   const handleSearchBtn = async () => {
     switch (filterBy) {
     case 'Ingredient':
       try {
-        const data = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`);
+        const url = whatPage === '/meals' ? `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}` : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+        const data = await fetch(url);
         const json = await data.json();
         console.log(json);
       } catch (error) {
@@ -19,7 +23,8 @@ function SearchBar() {
       break;
     case 'Name':
       try {
-        const data = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`);
+        const url = whatPage === '/meals' ? `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}` : `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
+        const data = await fetch(url);
         const json = await data.json();
         console.log(json);
       } catch (error) {
@@ -28,7 +33,8 @@ function SearchBar() {
       break;
     case 'FirstLetter':
       try {
-        const data = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`);
+        const url = whatPage === '/meals' ? `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}` : `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
+        const data = await fetch(url);
         const json = await data.json();
         console.log(json);
       } catch {
