@@ -35,9 +35,10 @@ export default function Login() {
     e.preventDefault();
     history.push('/meals');
     // history.push('/drinks');
-    if (isEmailValid && isPasswordValid) {
-      localStorage.setItem('user', JSON.stringify({ email }));
-    }
+    //if (isEmailValid && isPasswordValid) {
+    //  localStorage.setItem('user', JSON.stringify({ email }));
+    //}
+    localStorage.setItem('user', JSON.stringify({ email }));
   };
   return (
     <form>
