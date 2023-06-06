@@ -10,7 +10,18 @@ export default function Provider({ children }) {
   // Inputs do Header que serão usados no componente Search Bar
   const [searchInput, setSearchInput] = useState('');
 
-  const values = { searchInput, setSearchInput };
+  // Meals encontradas ao utilizar a barra de pesquisa
+  const [searchedMeals, setSearchedMeals] = useState({ meals: [] });
+
+  // Drinks encontradas ao utilizar a barra de pesquisa
+  const [searchedDrinks, setSearchedDrinks] = useState({ drinks: [] });
+
+  const values = { searchInput,
+    setSearchInput,
+    searchedMeals,
+    setSearchedMeals,
+    searchedDrinks,
+    setSearchedDrinks };
 
   return (
     <Context.Provider value={ values }>

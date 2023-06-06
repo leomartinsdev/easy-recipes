@@ -1,22 +1,48 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
 
 function SearchBar() {
   const [filterBy, setFilterBy] = useState('');
-  const { searchInput } = useContext(Context);
-  console.log(filterBy);
+  const { searchInput,
+    searchedMeals,
+    setSearchedMeals,
+    searchedDrinks,
+    setSearchedDrinks } = useContext(Context);
+
   const history = useHistory();
   const whatPage = history.location.pathname;
 
-  const handleSearchBtn = async () => {
+  const checkSearched = () => {
+    if (searchedMeals.meals.length === 1) {
+      history.push(`/meals/${searchedMeals.meals[0].idMeal}`);
+    }
+    if (searchedDrinks.drinks.length === 1) {
+      history.push(`/drinks/${searchedDrinks.drinks[0].idDrink}`);
+    }
+  };
+
+  function saveResults(json) {
+    if (whatPage === '/meals') {
+      setSearchedMeals(json);
+    } else if (whatPage === '/drinks') {
+      setSearchedDrinks(json);
+    }
+  }
+
+  useEffect(() => {
+    checkSearched();
+  }, [searchedMeals, searchedDrinks]);
+
+  // Ao clicar no botão de Pesquisar, executa a função abaixo.
+  async function handleSearchBtn() {
     switch (filterBy) {
     case 'Ingredient':
       try {
         const url = whatPage === '/meals' ? `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}` : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`;
         const data = await fetch(url);
         const json = await data.json();
-        console.log(json);
+        saveResults(json);
       } catch (error) {
         console.log(error);
       }
@@ -26,7 +52,7 @@ function SearchBar() {
         const url = whatPage === '/meals' ? `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}` : `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
         const data = await fetch(url);
         const json = await data.json();
-        console.log(json);
+        saveResults(json);
       } catch (error) {
         console.log(error);
       }
@@ -36,7 +62,7 @@ function SearchBar() {
         const url = whatPage === '/meals' ? `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}` : `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
         const data = await fetch(url);
         const json = await data.json();
-        console.log(json);
+        saveResults(json);
       } catch {
         global.alert('Your search must have only 1 (one) character');
       }
@@ -44,7 +70,7 @@ function SearchBar() {
     default:
       return true;
     }
-  };
+  }
 
   return (
     <div>
