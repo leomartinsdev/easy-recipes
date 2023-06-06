@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Meals from './pages/Meals';
 import Drinks from './pages/Drinks';
 import Profile from './pages/Profile';
+import Header from './components/Header';
 
 function App() {
   return (
@@ -25,6 +26,15 @@ function App() {
       <Route path="/meals" component={ Meals } />
       <Route exact path="/drinks" component={ Drinks } />
       <Route exact path="/profile" component={ Profile } />
+      <Route
+        exact
+        path="/meals"
+        render={ (props) => (<Header
+          { ...props }
+          haveHeaderSearch
+          pageName="Meals"
+        />) }
+      />
       {/* <Route exact path="/" component={ Login } />
       <Route exact path="/" component={ Login } />
       <Route exact path="/" component={ Login } /> */}
