@@ -15,7 +15,6 @@ export default function useFetch(typeOfRecipe) {
   const fetchFilteredRecipes = async (url) => {
     const response = await fetch(url);
     const data = await response.json();
-    // console.log(data.meals);
     setFilteredRecipes(data[typeOfRecipe]);
   };
 
@@ -36,13 +35,11 @@ export default function useFetch(typeOfRecipe) {
   };
 
   const getFilteredRecipes = (typeRecipe, filterCategorie) => {
-    // console.log(filterByCategorie);
     if (filterCategorie !== '') {
-      // console.log("test");
       if (typeRecipe === 'meals') {
-        fetchFilteredRecipes(`https://www.themealdb.com/api/json/v1/1/search.php?s=${filterCategorie}`);
+        fetchFilteredRecipes(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${filterCategorie}`);
       } else if (typeRecipe === 'drinks') {
-        fetchFilteredRecipes(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${filterCategorie}`);
+        fetchFilteredRecipes(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${filterCategorie}`);
       }
     }
   };
@@ -55,5 +52,9 @@ export default function useFetch(typeOfRecipe) {
     getFilteredRecipes(typeOfRecipe, filterByCategorie);
   }, [filterByCategorie]);
 
-  return { recipes, categories, setFilterByCategorie, filteredRecipes };
+  return { recipes,
+    categories,
+    setFilterByCategorie,
+    filteredRecipes,
+    setFilteredRecipes };
 }
