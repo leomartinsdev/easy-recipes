@@ -14,13 +14,21 @@ function SearchBar() {
   const whatPage = history.location.pathname;
 
   const checkSearched = useCallback(() => {
-    if (searchedMeals.meals.length === 1) {
-      history.push(`/meals/${searchedMeals.meals[0].idMeal}`);
+    if (searchedMeals.meals == null || searchedDrinks.drinks == null) {
+      setSearchedMeals({ meals: [] });
+      setSearchedDrinks({ drinks: [] });
+    } else if (searchedMeals.meals.length === 1) {
+      return history.push(`/meals/${searchedMeals.meals[0].idMeal}`);
+    } else if (searchedDrinks.drinks.length === 1) {
+      return history.push(`/drinks/${searchedDrinks.drinks[0].idDrink}`);
     }
-    if (searchedDrinks.drinks.length === 1) {
-      history.push(`/drinks/${searchedDrinks.drinks[0].idDrink}`);
-    }
-  }, [searchedDrinks, searchedMeals, history]);
+    // if (searchedMeals.meals.length === 1) {
+    //   history.push(`/meals/${searchedMeals.meals[0].idMeal}`);
+    // }
+    // if (searchedDrinks.drinks.length === 1) {
+    //   history.push(`/drinks/${searchedDrinks.drinks[0].idDrink}`);
+    // }
+  }, [searchedDrinks, searchedMeals, history, setSearchedDrinks, setSearchedMeals]);
 
   function saveResults(json) {
     if (whatPage === '/meals') {

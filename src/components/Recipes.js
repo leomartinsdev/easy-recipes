@@ -23,10 +23,11 @@ export default function Recipes(props) {
   const { searchedMeals, searchedDrinks } = useContext(Context);
 
   function changeFilteredRecipes() {
-    if (whatPage === '/meals' && searchedMeals.meals.length > 0) {
+    if (searchedMeals.meals == null || searchedDrinks.drinks == null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } else if (whatPage === '/meals' && searchedMeals.meals.length > 0) {
       setFilteredRecipes(searchedMeals.meals);
-    }
-    if (whatPage === '/drinks' && searchedDrinks.drinks.length > 0) {
+    } else if (whatPage === '/drinks' && searchedDrinks.drinks.length > 0) {
       setFilteredRecipes(searchedDrinks.drinks);
     }
   }
@@ -35,7 +36,6 @@ export default function Recipes(props) {
     changeFilteredRecipes();
   }, [searchedMeals, searchedDrinks]);
 
-  console.log(filteredRecipes);
   return (
     <>
       <div className="categories">
@@ -62,6 +62,7 @@ export default function Recipes(props) {
               data-testid={ `${index}-card-img` }
             />
           </div>))}
+      {/* ----->>>>>> NÃO APAGAR A PARTE DE BAIXO DE JEITO NENHUM <<<<<------*/ }
       {/* {(filteredRecipes.length !== 0 ? filteredRecipes : recipes)
         .filter((recipe, index) => index < numberOfRecipes)
         .map((recipe, index) => (
