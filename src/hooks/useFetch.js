@@ -55,5 +55,9 @@ export default function useFetch(typeOfRecipe) {
     getFilteredRecipes(typeOfRecipe, filterByCategorie);
   }, [filterByCategorie]);
 
-  return { recipes, categories, setFilterByCategorie, filteredRecipes };
+  return { recipes,
+    categories,
+    setFilterByCategorie,
+    filteredRecipes,
+    setFilteredRecipes };
 }
