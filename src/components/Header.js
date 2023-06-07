@@ -23,19 +23,20 @@ export default function Header(props) {
       <button
         data-testid="profile-top-btn"
         onClick={ () => handleProfileClick() }
+        src={ profileIcon }
       >
-        <img src={ profileIcon } alt="profile" />
+        {/* <img src={ profileIcon } alt="profile" /> */}
       </button>
       <div>
         {haveHeaderSearch && (
           <button
             data-testid="search-top-btn"
             onClick={ () => setSearchBarIsActive(!searchBarIsActive) }
+            src={ searchIcon }
           >
-            <img
-              src={ searchIcon }
+            {/* <img
               alt="search"
-            />
+            /> */}
           </button>
         )}
         {
