@@ -41,6 +41,8 @@ export default function useFetch(typeOfRecipe) {
       } else if (typeRecipe === 'drinks') {
         fetchFilteredRecipes(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${filterCategorie}`);
       }
+    } else {
+      setFilteredRecipes([]);
     }
   };
 
@@ -56,5 +58,6 @@ export default function useFetch(typeOfRecipe) {
     categories,
     setFilterByCategorie,
     filteredRecipes,
-    setFilteredRecipes };
+    setFilteredRecipes,
+    filterByCategorie };
 }

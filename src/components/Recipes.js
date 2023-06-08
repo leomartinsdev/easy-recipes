@@ -5,12 +5,22 @@ import useFetch from '../hooks/useFetch';
 export default function Recipes(props) {
   const { typeOfRecipe } = props;
   const { recipes, categories, setFilterByCategorie,
-    filteredRecipes, setFilteredRecipes } = useFetch(typeOfRecipe);
+    filteredRecipes, setFilteredRecipes, filterByCategorie } = useFetch(typeOfRecipe);
   const id = typeOfRecipe === 'meals' ? 'idMeal' : 'idDrink';
   const recipeName = typeOfRecipe === 'meals' ? 'strMeal' : 'strDrink';
   const thumb = typeOfRecipe === 'meals' ? 'strMealThumb' : 'strDrinkThumb';
   const numberOfRecipes = 12;
   const numberOfCategories = 5;
+
+  // função que verifica se a categoria selecionada esta sendo selecionada uma segunda vez
+  const verifyFilter = (strCategory) => {
+    if (strCategory === filterByCategorie) {
+      setFilterByCategorie('');
+    } else {
+      setFilterByCategorie(strCategory);
+    }
+  };
+
   return (
     <>
       <div className="filter-categories">
@@ -26,7 +36,7 @@ export default function Recipes(props) {
             <button
               data-testid={ `${strCategory}-category-filter` }
               key={ strCategory }
-              onClick={ () => setFilterByCategorie(strCategory) }
+              onClick={ () => verifyFilter(strCategory) }
             >
               {strCategory}
             </button>
