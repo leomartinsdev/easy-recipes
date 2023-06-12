@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Context from './Context';
 
@@ -16,12 +16,19 @@ export default function Provider({ children }) {
   // Drinks encontradas ao utilizar a barra de pesquisa
   const [searchedDrinks, setSearchedDrinks] = useState({ drinks: [] });
 
-  const values = { searchInput,
+  const values = useMemo(() => ({
+    searchInput,
     setSearchInput,
     searchedMeals,
     setSearchedMeals,
     searchedDrinks,
-    setSearchedDrinks };
+    setSearchedDrinks,
+  }), [searchInput,
+    setSearchInput,
+    searchedMeals,
+    setSearchedMeals,
+    searchedDrinks,
+    setSearchedDrinks]);
 
   return (
     <Context.Provider value={ values }>
