@@ -8,6 +8,7 @@ export default function Meals() {
     <div>
       <Header haveHeaderSearch pageName="Meals" />
       <h1>Meals</h1>
+      <Header haveHeaderSearch pageName="Meals" />
       <Recipes typeOfRecipe="meals" />
       <Footer />
     </div>
