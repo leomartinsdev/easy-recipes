@@ -20,7 +20,6 @@ export default function Recipes(props) {
   const numberOfRecipes = 12;
   const numberOfCategories = 5;
 
-
   // função que verifica se a categoria selecionada esta sendo selecionada uma segunda vez
   const verifyFilter = (strCategory) => {
     if (strCategory === filterByCategorie) {
@@ -85,9 +84,7 @@ export default function Recipes(props) {
               data-testid={ `${index}-card-img` }
             />
           </button>))}
-       //   </div>))}
-      {/* ----->>>>>> NÃO APAGAR A PARTE DE BAIXO DE JEITO NENHUM <<<<<------*/ }
-      {/* {(filteredRecipes.length !== 0 ? filteredRecipes : recipes)
+      {/* filteredRecipes.length !== 0 ? filteredRecipes : recipes)
         .filter((recipe, index) => index < numberOfRecipes)
         .map((recipe, index) => (
           <div data-testid={ `${index}-recipe-card` } key={ recipe[id] }>
@@ -97,7 +94,7 @@ export default function Recipes(props) {
               alt={ recipe[id] }
               data-testid={ `${index}-card-img` }
             />
-          </div>))} */}
+          </div> */}
     </>
   );
 }
