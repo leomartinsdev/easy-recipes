@@ -4,9 +4,9 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 export default function Profile() {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const { email } = JSON.parse(localStorage.getItem('user'))
+    ? JSON.parse(localStorage.getItem('user')) : { email: '' };
   const history = useHistory();
-  const { email } = user;
   const handleLogout = () => {
     history.push('/');
     localStorage.clear();
