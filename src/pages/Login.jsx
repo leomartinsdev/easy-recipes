@@ -35,9 +35,9 @@ export default function Login() {
     e.preventDefault();
     history.push('/meals');
     // history.push('/drinks');
-    //if (isEmailValid && isPasswordValid) {
+    // if (isEmailValid && isPasswordValid) {
     //  localStorage.setItem('user', JSON.stringify({ email }));
-    //}
+    // }
     localStorage.setItem('user', JSON.stringify({ email }));
   };
   return (
