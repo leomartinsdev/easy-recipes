@@ -32,6 +32,7 @@ export default function Recipes(props) {
   const handleCardClick = (redipeId) => {
     history.push(`/${typeOfRecipe}/${redipeId}`);
   };
+
   const { searchedMeals, searchedDrinks } = useContext(Context);
 
   function changeFilteredRecipes() {
