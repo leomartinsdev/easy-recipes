@@ -13,7 +13,6 @@ export default function Profile() {
   };
   return (
     <div>
-      <h1>Profile</h1>
       <Header haveHeaderSearch={ false } pageName="Profile" />
       <h2 data-testid="profile-email">{email}</h2>
       <button
