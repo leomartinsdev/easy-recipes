@@ -34,9 +34,7 @@ export default function Header(props) {
             onClick={ () => setSearchBarIsActive(!searchBarIsActive) }
             src={ searchIcon }
           >
-            {/* <img
-              alt="search"
-            /> */}
+            🔎
           </button>
         )}
         {
