@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Carousel from 'react-bootstrap/Carousel';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
-export default function RecipeDetails(props) {
+export default function RecipeDetails() {
   const [details, setDetails] = useState([]);
   const [ingredients, setIngredients] = useState(null);
   const [recomendations, setRecomendations] = useState([]);
-  const { match: { params: { id } } } = props;
+  //   const { match: { params: { id } } } = props;
   const location = useLocation();
   const { pathname } = location;
   const urlAposDominio = pathname.split('/');
   const type = urlAposDominio[1];
-  console.log(details);
+  const history = useHistory();
+  const id = history.location.pathname.replace(/[^0-9]/g, '');
 
   const getFood = async () => {
     console.log(id);
