@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 
 export default function Recipes(props) {
+  const history = useHistory();
   const { typeOfRecipe } = props;
   const { recipes, categories, setFilterByCategorie,
     filteredRecipes, setFilteredRecipes, filterByCategorie } = useFetch(typeOfRecipe);
@@ -19,6 +21,10 @@ export default function Recipes(props) {
     } else {
       setFilterByCategorie(strCategory);
     }
+  };
+
+  const handleCardClick = (redipeId) => {
+    history.push(`/${typeOfRecipe}/${redipeId}`);
   };
 
   return (
@@ -45,14 +51,18 @@ export default function Recipes(props) {
       {(filteredRecipes.length > 0 ? filteredRecipes : recipes)
         .filter((recipe, index) => index < numberOfRecipes)
         .map((recipe, index) => (
-          <div data-testid={ `${index}-recipe-card` } key={ recipe[id] }>
+          <button
+            data-testid={ `${index}-recipe-card` }
+            key={ recipe[id] }
+            onClick={ () => handleCardClick(recipe[id]) }
+          >
             <h3 data-testid={ `${index}-card-name` }>{recipe[recipeName]}</h3>
             <img
               src={ recipe[thumb] }
               alt={ recipe[id] }
               data-testid={ `${index}-card-img` }
             />
-          </div>))}
+          </button>))}
     </>
   );
 }
