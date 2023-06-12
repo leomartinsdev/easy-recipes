@@ -1,9 +1,11 @@
 import React from 'react';
 import Header from '../components/Header';
+import shareIcon from '../images/shareIcon.svg';
 
 export default function DoneRecipes() {
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'))
-    ? JSON.parse(localStorage.getItem('doneRecipes')) : [];
+    ? JSON.parse(localStorage.getItem('doneRecipes'))
+    : [];
   console.log(doneRecipes);
   return (
     <div>
@@ -26,34 +28,47 @@ export default function DoneRecipes() {
       >
         Drinks
       </button>
-      {doneRecipes
-        .map(({ id, name, image, category, doneDate, tags }, index) => (
+      {doneRecipes.map(
+        (
+          { id, name, image, category, doneDate, tags, type, nationality },
+          index,
+        ) => (
           <div key={ id }>
             <img
               src={ image }
               alt={ name }
               data-testid={ `${index}-horizontal-image` }
             />
-            <p data-testid={ `${index}-horizontal-top-text` }>{ category }</p>
-            <h3 data-testid={ `${index}-horizontal-name` }>{ name }</h3>
-            <p data-testid={ `${index}-horizontal-done-date` }>{ doneDate }</p>
+            {type === 'meal' && (
+              <p data-testid={ `${index}-horizontal-top-text` }>
+                {`${nationality} - ${category}`}
+              </p>
+            )}
+            {type !== 'meal' && (
+              <p data-testid={ `${index}-horizontal-top-text` }>
+                {`${category}`}
+              </p>
+            )}
+            <h3 data-testid={ `${index}-horizontal-name` }>{name}</h3>
+            <p data-testid={ `${index}-horizontal-done-date` }>{doneDate}</p>
             <button
               data-testid={ `${index}-horizontal-share-btn` }
-            // onClick={ () => setFilteredRecipes([]) }
+              src={ shareIcon }
+              // onClick={ () => setFilteredRecipes([]) }
             >
               Share
             </button>
-            {tags
-              .map((tagName, indexTag) => (
-                <span
-                  key={ indexTag }
-                  data-testid={ `${index}-${tagName}-horizontal-tag` }
-                >
-                  {tagName}
-                </span>
-              ))}
+            {tags.map((tagName, indexTag) => (
+              <span
+                key={ indexTag }
+                data-testid={ `${index}-${tagName}-horizontal-tag` }
+              >
+                {tagName}
+              </span>
+            ))}
           </div>
-        ))}
+        ),
+      )}
     </div>
   );
 }
