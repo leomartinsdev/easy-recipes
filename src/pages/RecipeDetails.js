@@ -7,6 +7,8 @@ export default function RecipeDetails() {
   const [details, setDetails] = useState([]);
   const [ingredients, setIngredients] = useState(null);
   const [recomendations, setRecomendations] = useState([]);
+  const [inProgressRecipe, setInProgressRecipe] = useState(false);
+  const [isThisRecipeDone, setIsThisRecipeDone] = useState(false);
   //   const { match: { params: { id } } } = props;
   const location = useLocation();
   const { pathname } = location;
@@ -47,10 +49,17 @@ export default function RecipeDetails() {
   };
 
   const getLink = (youtubeLink) => {
-    // if (!youtubeLink) return;
     const embedLink = 'https://www.youtube.com/embed/';
     const linkId = youtubeLink?.split('v=')[1];
     return `${embedLink}${linkId}`;
+  };
+
+  const handleClick = () => {
+    if (type === 'meals') {
+      history.push(`/meals/${id}/in-progress`);
+    } else {
+      history.push(`/drinks/${id}/in-progress`);
+    }
   };
 
   const drinkOrFood = () => {
@@ -87,6 +96,27 @@ export default function RecipeDetails() {
       setIngredients(results);
     }
   }, [details]);
+
+  useEffect(() => {
+    const currentPath = () => {
+      if (pathname.includes('meals')) return 'meals';
+      return 'drinks';
+    };
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
+    if (inProgressRecipes[currentPath()]
+      && Object.keys(inProgressRecipes[currentPath()]).includes(id)) {
+      setInProgressRecipe(true);
+    }
+  }, [id, pathname]);
+
+  useEffect(() => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (doneRecipes) {
+      doneRecipes.forEach((doneRecipe) => {
+        if (doneRecipe.id === id) setIsThisRecipeDone(true);
+      });
+    }
+  }, [id]);
 
   console.log(type);
   return (
@@ -162,7 +192,18 @@ export default function RecipeDetails() {
           }
         </Carousel>
       </div>
-
+      <div>
+        { !isThisRecipeDone && (
+          <button
+            className="startButton"
+            type="button"
+            data-testid="start-recipe-btn"
+            onClick={ handleClick }
+          >
+            { inProgressRecipe ? 'Continue Recipe' : 'Start Recipe' }
+          </button>
+        )}
+      </div>
     </div>
   );
 }
