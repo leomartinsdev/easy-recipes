@@ -6,7 +6,20 @@ export default function DoneRecipes() {
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'))
     ? JSON.parse(localStorage.getItem('doneRecipes'))
     : [];
-  console.log(doneRecipes);
+
+  const getHorizontalTopText = (
+    { type, nationality, category, alcoholicOrNot },
+    index,
+  ) => {
+    const topText = type === 'meal'
+      ? `${nationality} - ${category}` : `${alcoholicOrNot}`;
+    return (
+      <p data-testid={ `${index}-horizontal-top-text` }>
+        {topText}
+      </p>
+    );
+  };
+
   return (
     <div>
       <Header haveHeaderSearch={ false } pageName="Done Recipes" />
@@ -29,28 +42,16 @@ export default function DoneRecipes() {
         Drinks
       </button>
       {doneRecipes.map(
-        (
-          { id, name, image, category, doneDate, tags, type, nationality },
-          index,
-        ) => (
-          <div key={ id }>
+        (recipe, index) => (
+          <div key={ recipe.id }>
             <img
-              src={ image }
-              alt={ name }
+              src={ recipe.image }
+              alt={ recipe.name }
               data-testid={ `${index}-horizontal-image` }
             />
-            {type === 'meal' && (
-              <p data-testid={ `${index}-horizontal-top-text` }>
-                {`${nationality} - ${category}`}
-              </p>
-            )}
-            {type !== 'meal' && (
-              <p data-testid={ `${index}-horizontal-top-text` }>
-                {`${category}`}
-              </p>
-            )}
-            <h3 data-testid={ `${index}-horizontal-name` }>{name}</h3>
-            <p data-testid={ `${index}-horizontal-done-date` }>{doneDate}</p>
+            {getHorizontalTopText(recipe, index)}
+            <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
+            <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
             <button
               data-testid={ `${index}-horizontal-share-btn` }
               src={ shareIcon }
@@ -58,7 +59,7 @@ export default function DoneRecipes() {
             >
               Share
             </button>
-            {tags.map((tagName, indexTag) => (
+            {recipe.tags.map((tagName, indexTag) => (
               <span
                 key={ indexTag }
                 data-testid={ `${index}-${tagName}-horizontal-tag` }
