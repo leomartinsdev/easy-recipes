@@ -1,12 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { saveItem, getItem } from '../services/localStorage';
 
 function EachIngredient({ ingredient, index }) {
   const [isChecked, setIsChecked] = useState(false);
 
+  useEffect(() => {
+    const savedState = getItem('inProgressRecipes');
+    if (savedState && savedState.ingredients
+      && savedState.ingredients[index] !== undefined) {
+      setIsChecked(savedState.ingredients[index]);
+    }
+  }, [index]);
+
   const handleCheckbox = () => {
-    setIsChecked(!isChecked);
+    const newCheckedState = !isChecked;
+    setIsChecked(newCheckedState);
+
+    const savedState = getItem('inProgressRecipes') || { ingredients: [] };
+    savedState.ingredients[index] = newCheckedState;
+    saveItem('inProgressRecipes', savedState);
   };
+
+  const defaultChecked = isChecked || false;
 
   return (
     <label
@@ -20,7 +36,7 @@ function EachIngredient({ ingredient, index }) {
         type="checkbox"
         name={ ingredient }
         id={ ingredient }
-        checked={ isChecked }
+        checked={ defaultChecked }
         onChange={ handleCheckbox }
       />
     </label>
