@@ -37,8 +37,12 @@ function FavoriteRecipes() {
   };
 
   const filterFavoriteRecipes = (obj) => {
-    if (filterBy === 'meals') { return obj.filter((receita) => receita.type === 'meal'); }
-    if (filterBy === 'drinks') { return obj.filter((receita) => receita.type === 'drink'); }
+    if (filterBy === 'meals') {
+      return obj.filter((receita) => receita.type === 'meal');
+    }
+    if (filterBy === 'drinks') {
+      return obj.filter((receita) => receita.type === 'drink');
+    }
     return obj;
   };
 
