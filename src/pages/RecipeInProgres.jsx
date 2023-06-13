@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import EachIngredient from '../components/EachIngredient';
 
 function RecipeInProgres() {
   const { id } = useParams();
@@ -17,11 +18,12 @@ function RecipeInProgres() {
     instructions: '',
   });
 
+  // DA PRA REFATORAR E TRANSFORMAR EM UMA ASYNC SÓ USANDO A MESMA LÓGICA DO WHATPAGE QUE USEI NO SEARCHBAR
+
   async function getFood() {
     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
     const json = await response.json();
-    const data = json.meals;
-    console.log(data); // é um array com um objeto com as chaves que são usadas no código abaixo.
+    const data = json.meals; // é um array com um objeto com as chaves que são usadas no código abaixo.
     const ingredientsArray = [];
     const maxIngredients = 20;
     for (let i = 1; i <= maxIngredients; i += 1) {
@@ -33,7 +35,7 @@ function RecipeInProgres() {
       }
     }
     setRecipeInfo({
-      name: data[0].strMeal,
+      name: data[0].strMeal, // Caso eu refatore para ficar só com 1 async, essa chave pode ser alterada para um ternário para receber strMeal ou strDrink baseado no whatPage
       src: data[0].strImageSource,
       category: data[0].strCategory,
       ingredients: ingredientsArray,
@@ -94,14 +96,7 @@ function RecipeInProgres() {
         {
           recipeInfo.ingredients.map((ingredient, index) => (
             <div key={ index }>
-              <label
-                htmlFor={ ingredient }
-                data-testid={ `${index}-ingredient-step` }
-              >
-                {ingredient}
-                {' '}
-                <input type="checkbox" name={ ingredient } id={ ingredient } />
-              </label>
+              <EachIngredient ingredient={ ingredient } index={ index } />
             </div>))
         }
       </div>
