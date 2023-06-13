@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 
+// const copy = require('clipboard-copy');
+
 export default function DoneRecipes() {
+  const history = useHistory();
+  const [filterType, setFilterType] = useState('');
+  const url = history.location.pathname;
+  console.log(url);
+
+  const handleShareButton = async () => {
+    // global.alert('Link copied!');
+    // await copy(`/${type}s/${id}`);
+  };
+
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'))
     ? JSON.parse(localStorage.getItem('doneRecipes'))
     : [];
@@ -25,24 +38,25 @@ export default function DoneRecipes() {
       <Header haveHeaderSearch={ false } pageName="Done Recipes" />
       <button
         data-testid="filter-by-all-btn"
-        // onClick={ () => setFilteredRecipes([]) }
+        onClick={ () => setFilterType('') }
       >
         All
       </button>
       <button
         data-testid="filter-by-meal-btn"
-        // onClick={ () => setFilteredRecipes([]) }
+        onClick={ () => setFilterType('meal') }
       >
         Meals
       </button>
       <button
         data-testid="filter-by-drink-btn"
-        // onClick={ () => setFilteredRecipes([]) }
+        onClick={ () => setFilterType('drink') }
       >
         Drinks
       </button>
-      {doneRecipes.map(
-        (recipe, index) => (
+      {doneRecipes
+        .filter(({ type }) => type.includes(filterType))
+        .map((recipe, index) => (
           <div key={ recipe.id }>
             <img
               src={ recipe.image }
@@ -55,7 +69,7 @@ export default function DoneRecipes() {
             <button
               data-testid={ `${index}-horizontal-share-btn` }
               src={ shareIcon }
-              // onClick={ () => setFilteredRecipes([]) }
+              onClick={ () => handleShareButton(recipe) }
             >
               Share
             </button>
@@ -67,9 +81,7 @@ export default function DoneRecipes() {
                 {tagName}
               </span>
             ))}
-          </div>
-        ),
-      )}
+          </div>))}
     </div>
   );
 }
