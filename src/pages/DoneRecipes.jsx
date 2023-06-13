@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 
-// const copy = require('clipboard-copy');
-
 export default function DoneRecipes() {
-  const history = useHistory();
   const [filterType, setFilterType] = useState('');
-  const url = history.location.pathname;
-  console.log(url);
+  const [linkCopied, setLinkCopied] = useState(false);
 
-  const handleShareButton = async () => {
-    // global.alert('Link copied!');
-    // await copy(`/${type}s/${id}`);
+  const handleShareButton = async ({ type, id }) => {
+    const timeoutNumber = 3000;
+    await copy(`${window.location.origin}/${type}s/${id}`);
+    setTimeout(() => {
+      setLinkCopied(true);
+    }, timeoutNumber);
+    setLinkCopied(false);
   };
 
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'))
@@ -36,6 +36,7 @@ export default function DoneRecipes() {
   return (
     <div>
       <Header haveHeaderSearch={ false } pageName="Done Recipes" />
+      {linkCopied && <p>Link copied!</p>}
       <button
         data-testid="filter-by-all-btn"
         onClick={ () => setFilterType('') }
