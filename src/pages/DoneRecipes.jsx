@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import copy from 'clipboard-copy';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 
 export default function DoneRecipes() {
   const [filterType, setFilterType] = useState('');
   const [linkCopied, setLinkCopied] = useState(false);
+  const history = useHistory();
 
   const handleShareButton = async ({ type, id }) => {
     const timeoutNumber = 3000;
@@ -14,6 +16,10 @@ export default function DoneRecipes() {
       setLinkCopied(true);
     }, timeoutNumber);
     setLinkCopied(false);
+  };
+
+  const handleDetailButton = ({ type, id }) => {
+    history.push(`/${type}s/${id}`);
   };
 
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'))
@@ -59,13 +65,20 @@ export default function DoneRecipes() {
         .filter(({ type }) => type.includes(filterType))
         .map((recipe, index) => (
           <div key={ recipe.id }>
-            <img
+            <button
               src={ recipe.image }
               alt={ recipe.name }
               data-testid={ `${index}-horizontal-image` }
+              onClick={ () => handleDetailButton(recipe) }
             />
             {getHorizontalTopText(recipe, index)}
-            <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
+            <h3
+              data-testid={ `${index}-horizontal-name` }
+              role="presentation"
+              onClick={ () => handleDetailButton(recipe) }
+            >
+              {recipe.name}
+            </h3>
             <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
             <button
               data-testid={ `${index}-horizontal-share-btn` }
