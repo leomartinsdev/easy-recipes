@@ -119,7 +119,7 @@ function FavoriteRecipes() {
             </div>
             {showMessage && (
               <div>
-                <p>Link copied!</p>
+                <p>Link copiado</p>
               </div>
             )}
             <div className="list-group-flush">
