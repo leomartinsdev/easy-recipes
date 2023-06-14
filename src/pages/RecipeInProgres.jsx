@@ -37,7 +37,7 @@ function RecipeInProgres() {
     instructions: '',
   });
 
-  // Handles the favorite button click. Saves the recipe's information on the localStorage.
+  // Handles the favorite button click. Saves the recipe's information on the localStorage as a favorite recipe and if its already favorited, removes it from the localStorage.
   function handleFavoriteBtn() {
     const shouldSave = {
       id: recipeInfo.id,
@@ -62,6 +62,7 @@ function RecipeInProgres() {
     setIsFavorite(!isFavorite);
   }
 
+  // This function checks if the meal is already favorited by checking the localStorage. If it is checked, it sets the isFavorite state to true.
   function checkIfFavorite() {
     const savedState = getItem('favoriteRecipes') || [];
     savedState.map((recipe) => {
