@@ -2,7 +2,7 @@ import React from 'react';
 // import { screen } from '@testing-library/react';
 // import userEvent from '@testing-library/user-event';
 // import App from '../App';
-import renderWithRouter from '../renderWithRouter';
+import renderWithRouter from './utils/renderWithRouter';
 import Profile from '../pages/Profile';
 
 // const EMAIL = 'email-input';
