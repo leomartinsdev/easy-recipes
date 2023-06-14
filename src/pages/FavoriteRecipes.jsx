@@ -29,6 +29,7 @@ function FavoriteRecipes() {
     } = history;
     const path1 = pathname.replace('/favorite-recipes', '');
     const path2 = `${path1}/${receita.type}s/${receita.id}`;
+    console.log(path2);
     return path2;
   };
 
@@ -82,17 +83,22 @@ function FavoriteRecipes() {
           </nav>
         </div>
       </nav>
-      {filterFavoriteRecipes(data)?.map((recipe, idx) => (
+      {filterFavoriteRecipes(data)?.map((recipe, index) => (
         <div key={ recipe.id }>
           <Link
-            to={ sendTo(recipe) }
-            src={ recipe.image }
-            alt={ recipe.name }
-            data-testid={ `${idx}-horizontal-image` }
-            onClick={ () => sendTo(recipe) }
-          />
+            to={ recipe.type === 'drink'
+              ? `/drinks/${recipe.id}`
+              : `/meals/${recipe.id}` }
+          >
+            {/* <Link to={ sendTo(recipe) }> */}
+            <img
+              src={ recipe.image }
+              alt={ recipe.name }
+              data-testid={ `${index}-horizontal-image` }
+            />
+          </Link>
           <div>
-            <div data-testid={ `${idx}-horizontal-name` }>
+            <div data-testid={ `${index}-horizontal-name` }>
               <Link to={ sendTo(recipe) }>{recipe.name}</Link>
               <button
                 type="button"
@@ -102,7 +108,7 @@ function FavoriteRecipes() {
                 <img
                   src={ shareIcon }
                   alt="shareIcon"
-                  data-testid={ `${idx}-horizontal-share-btn` }
+                  data-testid={ `${index}-horizontal-share-btn` }
                 />
               </button>
               <button
@@ -113,7 +119,7 @@ function FavoriteRecipes() {
                 <img
                   src={ blackHeartIcon }
                   alt="Receita favoritada"
-                  data-testid={ `${idx}-horizontal-favorite-btn` }
+                  data-testid={ `${index}-horizontal-favorite-btn` }
                 />
               </button>
             </div>
@@ -123,7 +129,7 @@ function FavoriteRecipes() {
               </div>
             )}
             <div className="list-group-flush">
-              <div data-testid={ `${idx}-horizontal-top-text` }>
+              <div data-testid={ `${index}-horizontal-top-text` }>
                 {recipe.type === 'meal'
                   && `${recipe.nationality} - ${recipe.category}`}
                 {recipe.type === 'drink' && `${recipe.alcoholicOrNot}`}
