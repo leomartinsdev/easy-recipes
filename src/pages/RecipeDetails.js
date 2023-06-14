@@ -9,7 +9,7 @@ export default function RecipeDetails() {
   const [recomendations, setRecomendations] = useState([]);
   const [inProgressRecipe, setInProgressRecipe] = useState(false);
   const [isThisRecipeDone, setIsThisRecipeDone] = useState(false);
-  //   const { match: { params: { id } } } = props;
+  //   const { match: { params: { id } } } = props;....
   const location = useLocation();
   const { pathname } = location;
   const urlAposDominio = pathname.split('/');
