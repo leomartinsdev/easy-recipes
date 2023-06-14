@@ -11,7 +11,6 @@ import DoneRecipes from './pages/DoneRecipes';
 import RecipeDetails from './pages/RecipeDetails';
 import RecipeInProgres from './pages/RecipeInProgres';
 
-
 function App() {
   return (
     <Switch>
