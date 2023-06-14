@@ -1,22 +1,18 @@
 import React, { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import Context from '../context/Context';
 
-export default function Recipes(props) {
+export default function Recipes() {
   const history = useHistory();
-
-  const whatPage = history.location.pathname;
-
-  const { typeOfRecipe } = props;
+  const whatPage = history.location.pathname.substring(1);
   const { recipes,
     categories, setFilterByCategorie, filteredRecipes,
-    setFilteredRecipes, filterByCategorie } = useFetch(typeOfRecipe);
+    setFilteredRecipes, filterByCategorie } = useFetch(whatPage);
   // const usedRecipes = filteredRecipes === [] ? recipes : filteredRecipes;
-  const id = typeOfRecipe === 'meals' ? 'idMeal' : 'idDrink';
-  const recipeName = typeOfRecipe === 'meals' ? 'strMeal' : 'strDrink';
-  const thumb = typeOfRecipe === 'meals' ? 'strMealThumb' : 'strDrinkThumb';
+  const id = whatPage === 'meals' ? 'idMeal' : 'idDrink';
+  const recipeName = whatPage === 'meals' ? 'strMeal' : 'strDrink';
+  const thumb = whatPage === 'meals' ? 'strMealThumb' : 'strDrinkThumb';
   const numberOfRecipes = 12;
   const numberOfCategories = 5;
 
@@ -29,8 +25,8 @@ export default function Recipes(props) {
     }
   };
 
-  const handleCardClick = (redipeId) => {
-    history.push(`/${typeOfRecipe}/${redipeId}`);
+  const handleCardClick = (recipeId) => {
+    history.push(`/${whatPage}/${recipeId}`);
   };
   const { searchedMeals, searchedDrinks } = useContext(Context);
 
@@ -72,9 +68,10 @@ export default function Recipes(props) {
       {(filteredRecipes.length > 0 ? filteredRecipes : recipes)
         .filter((recipe, index) => index < numberOfRecipes)
         .map((recipe, index) => (
-          <button
+          <div
             data-testid={ `${index}-recipe-card` }
             key={ recipe[id] }
+            role="presentation"
             onClick={ () => handleCardClick(recipe[id]) }
           >
             <h3 data-testid={ `${index}-card-name` }>{recipe[recipeName]}</h3>
@@ -83,7 +80,7 @@ export default function Recipes(props) {
               alt={ recipe[id] }
               data-testid={ `${index}-card-img` }
             />
-          </button>))}
+          </div>))}
       {/* filteredRecipes.length !== 0 ? filteredRecipes : recipes)
         .filter((recipe, index) => index < numberOfRecipes)
         .map((recipe, index) => (
@@ -98,7 +95,3 @@ export default function Recipes(props) {
     </>
   );
 }
-
-Recipes.propTypes = {
-  typeOfRecipe: PropTypes.string,
-}.isRequired;

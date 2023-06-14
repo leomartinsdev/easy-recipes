@@ -7,7 +7,7 @@ export default function Drinks() {
   return (
     <div>
       <Header haveHeaderSearch pageName="Drinks" />
-      <Recipes typeOfRecipe="drinks" />
+      <Recipes />
       <Footer />
     </div>
   );
