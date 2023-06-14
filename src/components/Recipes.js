@@ -25,8 +25,8 @@ export default function Recipes() {
     }
   };
 
-  const handleCardClick = (redipeId) => {
-    history.push(`/${whatPage}/${redipeId}`);
+  const handleCardClick = (recipeId) => {
+    history.push(`/${whatPage}/${recipeId}`);
   };
   const { searchedMeals, searchedDrinks } = useContext(Context);
 
@@ -68,9 +68,10 @@ export default function Recipes() {
       {(filteredRecipes.length > 0 ? filteredRecipes : recipes)
         .filter((recipe, index) => index < numberOfRecipes)
         .map((recipe, index) => (
-          <button
+          <div
             data-testid={ `${index}-recipe-card` }
             key={ recipe[id] }
+            role="presentation"
             onClick={ () => handleCardClick(recipe[id]) }
           >
             <h3 data-testid={ `${index}-card-name` }>{recipe[recipeName]}</h3>
@@ -79,7 +80,7 @@ export default function Recipes() {
               alt={ recipe[id] }
               data-testid={ `${index}-card-img` }
             />
-          </button>))}
+          </div>))}
       {/* filteredRecipes.length !== 0 ? filteredRecipes : recipes)
         .filter((recipe, index) => index < numberOfRecipes)
         .map((recipe, index) => (
