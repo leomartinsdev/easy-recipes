@@ -2,7 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import Footer from '../components/Footer';
-import renderWithRouter from '../renderWithRouter';
+import renderWithRouter from './utils/renderWithRouter';
 
 describe('Desenvolva testes para cobertura do componente Footer', () => {
   test('Testa os botões do footer', () => {

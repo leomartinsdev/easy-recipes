@@ -1,72 +1,107 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import renderWithRouter from '../renderWithRouter';
-import Header from '../components/Header';
-import Meals from '../pages/Meals';
+import { act } from 'react-dom/test-utils';
+import renderWithRouter from './utils/renderWithRouter';
+import App from '../App';
 
 const SEARCH_BTN = 'search-top-btn';
 const PROFILE_BTN = 'profile-top-btn';
 const SEARCH_INPUT = 'search-input';
+const PAGE_TITLE = 'page-title';
 
-describe('Desenvolva testes para cobertura do componente Header', () => {
-  test('Teste geral do funcionamento do header', () => {
-    renderWithRouter(<Meals />);
-
-    const mealsTitle = screen.getByRole('heading', { name: /meals/i, level: 1 });
-    const profileBtn = screen.getByTestId(PROFILE_BTN);
-    const searchBtn = screen.getByTestId(SEARCH_BTN);
-    const searchInput = screen.getByTestId(SEARCH_INPUT);
-
-    expect(mealsTitle).toBeInTheDocument();
-    expect(profileBtn).toBeInTheDocument();
-    expect(searchBtn).toBeInTheDocument();
-
-    test('Verifica rotas do Profile', () => {
-      const { history } = renderWithRouter(<Meals />);
-      userEvent.click(profileBtn);
-      expect(history.location.pathname).toBe('/profile');
-      expect(profileBtn).toBeInTheDocument();
-      expect(searchBtn).not.toBeInTheDocument();
-      expect(screen.getByText(/profile/i)).toBeInTheDocument();
+describe('Testes do componente header', () => {
+  test('Teste /meals', () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/meals');
     });
+    const pageTitle = screen.getByTestId(PAGE_TITLE);
+    expect(pageTitle).toHaveTextContent('Meals');
+    const buttonSearch = screen.getByTestId(SEARCH_BTN);
+    expect(buttonSearch).toBeInTheDocument();
+  });
 
-    test('Teste do botão em relação com o input', () => {
-      renderWithRouter(<Meals />);
-      userEvent.click(searchBtn);
-      expect(searchInput).toBeInTheDocument();
-      userEvent.click(searchBtn);
-      expect(searchInput).not.toBeInTheDocument();
+  test('Teste /drinks', () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/drinks');
     });
+    const pageTitle = screen.getByTestId(PAGE_TITLE);
+    expect(pageTitle).toHaveTextContent('Drinks');
+    const buttonSearch = screen.getByTestId(SEARCH_BTN);
+    expect(buttonSearch).toBeInTheDocument();
+  });
 
-    test('Verifica se o header aparece nas paginas corretas e corretamente', () => {
-      const { history } = renderWithRouter(<Header />);
-      const titleElement = screen.getByTestId('page-title');
-
-      switch (history.location.pathname) {
-      case '/meals':
-        expect(titleElement).toHaveTextContent('Meals');
-        expect(searchBtn).toBeInTheDocument();
-        break;
-      case '/drinks':
-        expect(titleElement).toHaveTextContent('Drinks');
-        expect(searchBtn).toBeInTheDocument();
-        break;
-      case '/profile':
-        expect(titleElement).toHaveTextContent('Profile');
-        expect(searchBtn).not.toBeInTheDocument();
-        break;
-      case '/done-recipes':
-        expect(titleElement).toHaveTextContent('Done Recipes');
-        expect(searchBtn).not.toBeInTheDocument();
-        break;
-      case '/favorite-recipes':
-        expect(titleElement).toHaveTextContent('Favorite Recipes');
-        expect(searchBtn).not.toBeInTheDocument();
-        break;
-      default:
-        expect(titleElement).toHaveTextContent('');
-      }
+  test('Teste /profile', () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/profile');
     });
+    const pageTitle = screen.getByTestId(PAGE_TITLE);
+    expect(pageTitle).toHaveTextContent('Profile');
+    const buttonSearch = screen.getByTestId(SEARCH_BTN);
+    expect(buttonSearch).not.toBeInTheDocument();
+  });
+
+  test('Teste /Done Recipes', () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/done-recipes');
+    });
+    const pageTitle = screen.getByTestId(PAGE_TITLE);
+    expect(pageTitle).toHaveTextContent('Done Recipes');
+  });
+
+  test('Teste /Favorite Recipes', () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/favorite-recipes');
+    });
+    const pageTitle = screen.getByTestId(PAGE_TITLE);
+    expect(pageTitle).toHaveTextContent('Favorite Recipes');
+  });
+
+  test('Teste do botão de perfil', () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+    const buttonProfile = screen.getByTestId(PROFILE_BTN);
+    expect(buttonProfile).toBeInTheDocument();
+    userEvent.click(buttonProfile);
+    act(() => {
+      history.push('/profile');
+    });
+  });
+
+  test('Clique do search button com search input para habilitar', () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+    const buttonSearch = screen.getByTestId(SEARCH_BTN);
+    const inputSearch = screen.getByTestId(SEARCH_INPUT);
+    act(() => {
+      userEvent.click(buttonSearch);
+    });
+    expect(inputSearch).toBeInTheDocument();
+  });
+
+  test('Clique do search button com search input para desabilitar', () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+    const buttonSearch = screen.getByTestId(SEARCH_BTN);
+    const inputSearch = screen.getByTestId(SEARCH_INPUT);
+    act(() => {
+      userEvent.click(buttonSearch);
+    });
+    expect(inputSearch).toBeInTheDocument();
+    act(() => {
+      userEvent.click(buttonSearch);
+    });
+    expect(inputSearch).not.toBeInTheDocument();
   });
 });
