@@ -7,7 +7,7 @@ export default function Meals() {
   return (
     <div>
       <Header haveHeaderSearch pageName="Meals" />
-      <Recipes typeOfRecipe="meals" />
+      <Recipes />
       <Footer />
     </div>
   );
