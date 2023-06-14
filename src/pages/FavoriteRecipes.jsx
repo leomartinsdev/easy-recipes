@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Link, NavLink, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
@@ -61,24 +61,24 @@ function FavoriteRecipes() {
       <nav>
         <div>
           <nav className="me-auto">
-            <NavLink
+            <button
               data-testid="filter-by-all-btn"
               onClick={ () => handleFilter('all') }
             >
               All
-            </NavLink>
-            <NavLink
+            </button>
+            <button
               data-testid="filter-by-meal-btn"
               onClick={ () => handleFilter('meals') }
             >
               Meals
-            </NavLink>
-            <NavLink
+            </button>
+            <button
               data-testid="filter-by-drink-btn"
               onClick={ () => handleFilter('drinks') }
             >
               Drinks
-            </NavLink>
+            </button>
           </nav>
         </div>
       </nav>
@@ -119,7 +119,7 @@ function FavoriteRecipes() {
             </div>
             {showMessage && (
               <div>
-                <p>Link copiado</p>
+                <p>Link copied!</p>
               </div>
             )}
             <div className="list-group-flush">
