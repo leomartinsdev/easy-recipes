@@ -16,6 +16,10 @@ export default function Provider({ children }) {
   // Drinks encontradas ao utilizar a barra de pesquisa
   const [searchedDrinks, setSearchedDrinks] = useState({ drinks: [] });
 
+  const [arrayOfChecked, setArrayOfChecked] = useState([]);
+
+  const [isDisabled, setDisabled] = useState(true);
+
   const values = useMemo(() => ({
     searchInput,
     setSearchInput,
@@ -23,12 +27,19 @@ export default function Provider({ children }) {
     setSearchedMeals,
     searchedDrinks,
     setSearchedDrinks,
+    arrayOfChecked,
+    setArrayOfChecked,
+    isDisabled,
+    setDisabled,
   }), [searchInput,
     setSearchInput,
     searchedMeals,
     setSearchedMeals,
     searchedDrinks,
-    setSearchedDrinks]);
+    setSearchedDrinks,
+    arrayOfChecked,
+    setArrayOfChecked,
+    isDisabled, setDisabled]);
 
   return (
     <Context.Provider value={ values }>
