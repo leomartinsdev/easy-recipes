@@ -1,68 +1,95 @@
-import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
-import { renderWithRouter } from '../renderWithRouter';
+import React from 'react';
 import App from '../App';
+import renderWithRouter from './utils/renderWithRouter';
 
-describe('Testes da tela FavoriteRecipes', () => {
-  it('Procura elementos obrigatórios', () => {
-    const { history } = renderWithRouter(
-      <App />,
-    );
-    act(() => {
-      history.push('/favorite-recipes');
-    });
+describe('Testando a pagina FavoriteRecipes', () => {
+  const url = '/favorite-recipes';
+  const favoriteRecipes = [
+    {
+      id: '52771',
+      type: 'meal',
+      nationality: 'Italian',
+      category: 'Vegetarian',
+      alcoholicOrNot: '',
+      name: 'Spicy Arrabiata Penne',
+      image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+    },
+    {
+      id: '178319',
+      type: 'drink',
+      nationality: '',
+      category: 'Cocktail',
+      alcoholicOrNot: 'Alcoholic',
+      name: 'Aquamarine',
+      image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+    },
+  ];
 
-    const btnAll = screen.getByRole('button', {
-      name: /all/i,
-    });
-    const btnMeal = screen.getByRole('button', {
-      name: /meal/i,
-    });
-    const btnDrink = screen.getByRole('button', {
-      name: /drink/i,
-    });
-    expect(screen.getByTestId('profile-top-btn')).toBeInTheDocument();
-    expect(screen.getByTestId('page-title')).toBeInTheDocument();
-    expect(btnAll).toBeInTheDocument();
-    expect(btnDrink).toBeInTheDocument();
-    expect(btnMeal).toBeInTheDocument();
-
-    userEvent.click(btnAll);
-    userEvent.click(btnDrink);
-    userEvent.click(btnMeal);
+  beforeEach(() => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
   });
-  it('renderiza card', async () => {
-    const card = [{
-      favoriteRecipes: {
-        alcoholicOrNot: '',
-        category: 'Side',
-        id: '52977',
-        image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg',
-        name: 'Corba',
-        nationality: 'Turkish',
-        type: 'meal',
-      },
-    }];
 
-    localStorage.setItem('favoriteRecipes', JSON.stringify(card));
+  it('Verifica se as receitas renderizam corretamente', () => {
+    renderWithRouter(<App />, url);
+    const meal = screen.getByText(/corba/i);
+    const drink = screen.getByText(/B-53/i);
+    expect(meal).toBeInTheDocument();
+    expect(drink).toBeInTheDocument();
+  });
 
-    jest.spyOn(Object.getPrototypeOf(global.localStorage), 'getItem')
-      .mockReturnValue(JSON.stringify(card));
+  it('Verifica se ao clicar no nome da comida e redirecionado corretamente', () => {
+    const { history } = renderWithRouter(<App />, url);
+    const meal = screen.getByText(/corba/i);
+    userEvent.click(meal);
+    const { pathname } = history.location;
+    expect(pathname).toBe('/meals/52977');
+  });
 
-    const { history } = renderWithRouter(
-      <App />,
-    );
-    act(() => {
-      history.push('/favorite-recipes');
-    });
-    await waitFor(() => {
-      expect(screen.getByTestId('0-horizontal-name')).toBeInTheDocument();
-      expect(screen.getByTestId('0-horizontal-image')).toBeInTheDocument();
-      expect(screen.getByTestId('0-horizontal-top-text')).toBeInTheDocument();
-      expect(screen.getByTestId('0-horizontal-share-btn')).toBeInTheDocument();
-      expect(screen.getByTestId('0-horizontal-favorite-btn')).toBeInTheDocument();
-    });
+  it('Verifica se ao clicar na imagem da comida e redirecionado corretamente', () => {
+    const { history } = renderWithRouter(<App />, url);
+    const meal = screen.getByRole('link', { name: /corba/i });
+    within(meal).getByRole('img', { hidden: true });
+    userEvent.click(meal);
+    const { pathname } = history.location;
+    expect(pathname).toBe('/meals/52977');
+  });
+
+  it('Verifica se ao clicar no nome do drink e redirecionado corretamente', () => {
+    const { history } = renderWithRouter(<App />, url);
+    const drink = screen.getByText(/B-53/i);
+    userEvent.click(drink);
+    const { pathname } = history.location;
+    expect(pathname).toBe('/drinks/13332');
+  });
+
+  it('Verifica se ao clicar na imagem do drink e redirecionado corretamente', () => {
+    const { history } = renderWithRouter(<App />, url);
+    const drink = screen.getByRole('link', { name: /B-53/i });
+    within(drink).getByRole('img', { hidden: true });
+    userEvent.click(drink);
+    const { pathname } = history.location;
+    expect(pathname).toBe('/drinks/13332');
+  });
+
+  it('Testa o filtro de drinks', () => {
+    renderWithRouter(<App />, url);
+    const drink = screen.getByText(/B-53/i);
+    const buttonDrink = screen.getByRole('button', { name: /Drinks/i });
+    userEvent.click(buttonDrink);
+    expect(drink).toBeInTheDocument();
+  });
+
+  it('Testa a funcao de desfavoritar', () => {
+    renderWithRouter(<App />, url);
+    const favButton = screen.getByTestId('1-horizontal-favorite-btn');
+    const favButtonNext = screen.getByTestId('0-horizontal-favorite-btn');
+    expect(JSON.parse(localStorage.getItem('favoriteRecipes'))).toEqual(favoriteRecipes);
+    userEvent.click(favButton);
+    expect(JSON.parse(localStorage.getItem('favoriteRecipes')))
+      .toEqual([favoriteRecipes[0]]);
+    userEvent.click(favButtonNext);
+    expect(JSON.parse(localStorage.getItem('favoriteRecipes'))).toEqual([]);
   });
 });
