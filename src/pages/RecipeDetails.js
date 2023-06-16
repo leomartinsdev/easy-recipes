@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Carousel from 'react-bootstrap/Carousel';
 import { useLocation, useHistory } from 'react-router-dom';
+import clipboardCopy from 'clipboard-copy';
+import FavoriteButton from '../components/FavoriteButton';
+import shareIcon from '../images/shareIcon.svg';
 
 export default function RecipeDetails() {
   const [details, setDetails] = useState([]);
   const [ingredients, setIngredients] = useState(null);
   const [recomendations, setRecomendations] = useState([]);
+  const [copied, setCopied] = useState(false);
   const [inProgressRecipe, setInProgressRecipe] = useState(false);
   const [isThisRecipeDone, setIsThisRecipeDone] = useState(false);
   //   const { match: { params: { id } } } = props;....
@@ -60,6 +64,11 @@ export default function RecipeDetails() {
     } else {
       history.push(`/drinks/${id}/in-progress`);
     }
+  };
+
+  const copyLink = () => {
+    clipboardCopy(`http://localhost:3000${history.location.pathname}`);
+    setCopied(true);
   };
 
   const drinkOrFood = () => {
@@ -132,6 +141,14 @@ export default function RecipeDetails() {
           <h2 data-testid="recipe-title">
             { details[0]?.strMeal || details[0]?.strDrink }
           </h2>
+          <button
+            data-testid="share-btn"
+            onClick={ copyLink }
+          >
+            <img src={ shareIcon } alt="Compartilhar" />
+          </button>
+          {copied && <p>Link copied!</p>}
+          <FavoriteButton idRecipe={ id } recipe={ details } />
           <h3 data-testid="recipe-category">
             { type === 'meals' ? details[0].strCategory : details[0].strAlcoholic }
           </h3>
