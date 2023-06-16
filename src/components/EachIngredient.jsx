@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { saveItem, getItem } from '../services/localStorage';
+import Context from '../context/Context';
 
 function EachIngredient({ ingredient, index }) {
   const [isChecked, setIsChecked] = useState(false);
+  const { arrayOfChecked, setArrayOfChecked, setDisabled } = useContext(Context);
 
   useEffect(() => {
     const savedState = getItem('inProgressRecipes');
@@ -20,6 +22,13 @@ function EachIngredient({ ingredient, index }) {
     const savedState = getItem('inProgressRecipes') || { ingredients: [] };
     savedState.ingredients[index] = newCheckedState;
     saveItem('inProgressRecipes', savedState);
+
+    const newArrayOfChecked = arrayOfChecked;
+    newArrayOfChecked[index] = newCheckedState;
+    setArrayOfChecked(newArrayOfChecked);
+
+    // setDisabled(!arrayOfChecked.every((ele) => ele));
+    setDisabled((!arrayOfChecked.every((ele) => ele === true)));
   };
 
   const defaultChecked = isChecked || false;
