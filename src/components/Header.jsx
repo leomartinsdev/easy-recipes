@@ -25,6 +25,7 @@ export default function Header(props) {
         onClick={ () => handleProfileClick() }
         src={ profileIcon }
       >
+        Profile
         {/* <img src={ profileIcon } alt="profile" /> */}
       </button>
       <div>
