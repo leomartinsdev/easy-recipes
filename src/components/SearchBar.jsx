@@ -40,6 +40,8 @@ function SearchBar() {
 
   useEffect(() => {
     checkSearched();
+    console.log(searchedMeals);
+    console.log(searchedDrinks);
   }, [searchedMeals, searchedDrinks, checkSearched]);
 
   // Ao clicar no botão de Pesquisar, executa a função abaixo.
@@ -51,6 +53,7 @@ function SearchBar() {
         const data = await fetch(url);
         const json = await data.json();
         saveResults(json);
+        console.log(json);
       } catch (error) {
         console.log(error);
       }
@@ -61,6 +64,7 @@ function SearchBar() {
         const data = await fetch(url);
         const json = await data.json();
         saveResults(json);
+        console.log(json);
       } catch (error) {
         console.log(error);
       }
@@ -71,6 +75,7 @@ function SearchBar() {
         const data = await fetch(url);
         const json = await data.json();
         saveResults(json);
+        console.log(json);
       } catch {
         global.alert('Your search must have only 1 (one) character');
       }
