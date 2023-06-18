@@ -9,7 +9,6 @@ export default function Provider({ children }) {
 
   // Inputs do Header que serão usados no componente Search Bar
   const [searchInput, setSearchInput] = useState('');
-
   // Meals encontradas ao utilizar a barra de pesquisa
   const [searchedMeals, setSearchedMeals] = useState({ meals: [] });
 

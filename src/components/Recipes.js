@@ -34,9 +34,10 @@ export default function Recipes() {
   function changeFilteredRecipes() {
     if (searchedMeals.meals == null || searchedDrinks.drinks == null) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
-    } else if (whatPage === '/meals' && searchedMeals.meals.length > 0) {
+    } else if (whatPage === 'meals' && searchedMeals.meals.length > 0) {
+      console.log('meals cheio');
       setFilteredRecipes(searchedMeals.meals);
-    } else if (whatPage === '/drinks' && searchedDrinks.drinks.length > 0) {
+    } else if (whatPage === 'drinks' && searchedDrinks.drinks.length > 0) {
       setFilteredRecipes(searchedDrinks.drinks);
     }
   }

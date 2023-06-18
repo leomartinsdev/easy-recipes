@@ -48,7 +48,7 @@ export default function useFetch(typeOfRecipe) {
 
   useEffect(() => {
     getInfos(typeOfRecipe);
-  });
+  }, []);
 
   useEffect(() => {
     getFilteredRecipes(typeOfRecipe, filterByCategorie);
