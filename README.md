@@ -1,10 +1,15 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# Easy Recipes 🥘🍹
+Aplicativo de receitas de comidas e drinks!
+O usuário deve logar utilizando um e-mail válido e uma senha de pelo menos 7 dígitos.
+<br>
+Após estar logado, é possível escolher uma receita, favorita-la ou começar o preparo.
+Na tela de perfil (Profile) o usuário tem a visualização das receitas marcadas como favoritas, das receitas em progresso e as que ele já finalizou.
+<br>
+O gerenciamento de estados foi feito utilizando Context API.
+<br>
+
+## 💻 Acesse esse projeto:
+[Easy Recipes](https://recipes-app-leonardomartins.vercel.app/)
+
+## 👨‍💻 Tecnologias usadas:
+JavaScript, JSX, React, Context API, Componentes Funcionais e HTML5.
