@@ -9,7 +9,7 @@ O gerenciamento de estados foi feito utilizando Context API.
 <br>
 
 ## 💻 Acesse esse projeto:
-[Easy Recipes](https://recipes-app-leonardomartins.vercel.app/)
+[Easy Recipes](https://easy-recipes-leonardomartins.vercel.app/)
 
 ## 👨‍💻 Tecnologias usadas:
 JavaScript, JSX, React, Context API, Componentes Funcionais, Jest e React Testing Library.
